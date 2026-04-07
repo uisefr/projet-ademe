@@ -1,0 +1,715 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Schéma 2 — Actions par expérimentation · Projet ADEME Mobilités</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,wght@0,300;0,400;0,500;0,600;1,400&family=DM+Serif+Display&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --navy:        #0D1F3C;
+    --navy-mid:    #1B3560;
+    --blue:        #1B4F8A;
+    --blue-mid:    #2563A8;
+    --blue-light:  #EBF2FC;
+    --blue-xlight: #F5F9FE;
+    --teal:        #0D6E6E;
+    --teal-mid:    #0F8080;
+    --teal-light:  #E6F4F4;
+    --teal-xlight: #F3FAF9;
+    --amber:       #92520B;
+    --amber-mid:   #B06214;
+    --amber-light: #FDF3E3;
+    --amber-xlight:#FEFAF4;
+    --purple:      #5B3F9E;
+    --purple-light:#F0ECFA;
+    --gray:        #4A4E58;
+    --gray-light:  #F4F5F7;
+    --border:      #DDE1E9;
+    --white:       #FFFFFF;
+  }
+
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    font-family: 'DM Sans', system-ui, sans-serif;
+    background: #ECEEF3;
+    color: var(--navy);
+    padding: 32px 24px 56px;
+  }
+
+  .page { max-width: 1280px; margin: 0 auto; }
+
+  /* BACK LINK */
+  .back-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    margin-bottom: 16px;
+    text-decoration: none;
+    color: var(--blue);
+    font-weight: 600;
+    font-size: 13px;
+    transition: opacity .15s;
+  }
+  .back-link:hover { opacity: .7; }
+
+  /* HEADER */
+  .header {
+    background: var(--navy);
+    border-radius: 14px;
+    padding: 24px 36px;
+    margin-bottom: 24px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 20px;
+    flex-wrap: wrap;
+  }
+  .h-tag { font-size: 10px; font-weight: 600; letter-spacing: .14em; text-transform: uppercase; color: rgba(255,255,255,.45); margin-bottom: 7px; }
+  .h-title { font-family: 'DM Serif Display', serif; font-size: 22px; color: #fff; }
+  .h-badges { display: flex; gap: 10px; flex-wrap: wrap; }
+  .hb { border-radius: 20px; padding: 6px 14px; font-size: 12px; font-weight: 500; border: 1px solid; white-space: nowrap; }
+  .hb-b { background: rgba(37,99,168,.25); border-color: rgba(107,168,229,.4); color: #6BA8E5; }
+  .hb-t { background: rgba(13,110,110,.25); border-color: rgba(100,200,200,.3); color: #7DD4D4; }
+  .hb-a { background: rgba(146,82,11,.25); border-color: rgba(220,160,80,.3); color: #E8A84A; }
+
+  /* 3-COL LAYOUT */
+  .exp-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; }
+
+  /* COLUMN HEADER */
+  .exp-head { border-radius: 10px; padding: 18px 20px; margin-bottom: 14px; position: relative; overflow: hidden; }
+  .exp-head::before { content: ''; position: absolute; bottom: -28px; right: -28px; width: 96px; height: 96px; border-radius: 50%; background: rgba(255,255,255,.07); }
+  .eh-blue { background: var(--blue); }
+  .eh-teal { background: var(--teal); }
+  .eh-amber { background: var(--amber); }
+  .eh-num { font-size: 10px; font-weight: 600; letter-spacing: .1em; text-transform: uppercase; color: rgba(255,255,255,.6); margin-bottom: 5px; }
+  .eh-name { font-size: 16px; font-weight: 600; color: #fff; margin-bottom: 8px; line-height: 1.25; }
+  .eh-obj { font-size: 12px; color: rgba(255,255,255,.8); line-height: 1.5; border-top: 1px solid rgba(255,255,255,.15); padding-top: 8px; }
+
+  /* STRATEGY */
+  .strat { border-radius: 8px; padding: 13px 15px; margin-bottom: 12px; }
+  .st-b { background: var(--blue-light); border: 1px solid #C2D8F0; }
+  .st-t { background: var(--teal-light); border: 1px solid #B0D8D8; }
+  .st-a { background: var(--amber-light); border: 1px solid #EAC98A; }
+  .st-lbl { font-size: 10px; font-weight: 600; letter-spacing: .1em; text-transform: uppercase; margin-bottom: 8px; }
+  .sl-b { color: var(--blue); } .sl-t { color: var(--teal); } .sl-a { color: var(--amber); }
+  .st-items { display: flex; flex-direction: column; gap: 5px; }
+  .st-item { display: flex; align-items: flex-start; gap: 7px; font-size: 12px; color: var(--navy); line-height: 1.4; }
+  .sarr { flex-shrink: 0; margin-top: 2px; width: 14px; height: 14px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 8px; font-weight: 700; }
+  .sa-b { background: var(--blue); color: #fff; }
+  .sa-t { background: var(--teal); color: #fff; }
+  .sa-a { background: var(--amber); color: #fff; }
+
+  /* ACTION BLOCKS */
+  .action { background: var(--white); border: 1px solid var(--border); border-radius: 8px; margin-bottom: 10px; overflow: hidden; }
+  .action-h { display: flex; align-items: center; gap: 9px; padding: 10px 13px; border-bottom: 1px solid var(--border); }
+  .anum { flex-shrink: 0; width: 21px; height: 21px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 11px; font-weight: 600; color: #fff; }
+  .an-b { background: var(--blue); } .an-t { background: var(--teal); } .an-a { background: var(--amber); }
+  .atitle { font-size: 13px; font-weight: 600; color: var(--navy); }
+  .asub { font-size: 11px; margin-top: 1px; }
+  .as-b { color: var(--blue-mid); } .as-t { color: var(--teal-mid); } .as-a { color: var(--amber-mid); }
+  .subs { padding: 7px 13px 10px; display: flex; flex-direction: column; gap: 5px; }
+  .sub { display: flex; align-items: flex-start; gap: 7px; font-size: 12px; color: var(--gray); line-height: 1.4; }
+  .sdot { flex-shrink: 0; margin-top: 5px; width: 5px; height: 5px; border-radius: 50%; }
+  .sd-b { background: var(--blue-mid); } .sd-t { background: var(--teal-mid); } .sd-a { background: var(--amber-mid); }
+
+  /* TOOL BADGE */
+  .tbadge { border-radius: 6px; padding: 7px 11px; font-size: 11px; display: flex; align-items: center; gap: 8px; margin-bottom: 14px; }
+  .tb-b { background: var(--blue-xlight); border: 1px solid #C2D8F0; color: var(--blue); }
+  .tb-t { background: var(--teal-xlight); border: 1px solid #B0D8D8; color: var(--teal); }
+  .tb-a { background: var(--amber-xlight); border: 1px solid #EAC98A; color: var(--amber); }
+  .tbadge svg { flex-shrink: 0; }
+
+  /* SUPPORTS DE COM */
+  .sup-label { font-size: 10px; font-weight: 600; letter-spacing: .1em; text-transform: uppercase; color: var(--gray); margin-bottom: 8px; padding-bottom: 6px; border-bottom: 1px solid var(--border); }
+  .sup-stack { display: flex; flex-direction: column; gap: 10px; }
+  .sup-card { background: var(--white); border: 1px solid var(--border); border-radius: 8px; overflow: hidden; display: flex; align-items: stretch; }
+  .sup-vis { flex-shrink: 0; width: 90px; background: var(--gray-light); display: flex; align-items: center; justify-content: center; padding: 8px; }
+  .sup-info { flex: 1; padding: 9px 12px; }
+  .sup-type { font-size: 9px; font-weight: 700; letter-spacing: .09em; text-transform: uppercase; margin-bottom: 2px; }
+  .st-blue { color: var(--blue); } .st-teal { color: var(--teal); } .st-amber { color: var(--amber); }
+  .sup-name { font-size: 12px; font-weight: 600; color: var(--navy); margin-bottom: 2px; }
+  .sup-desc { font-size: 11px; color: var(--gray); line-height: 1.4; }
+
+  /* ── Mini mockup : email ── */
+  .mm-email { background: #fff; border: 1px solid #dde1e9; border-radius: 5px; width: 100%; overflow: hidden; box-shadow: 0 1px 5px rgba(0,0,0,.1); }
+  .mme-h { padding: 5px 7px; }
+  .mme-h-b { background: var(--blue); } .mme-h-t { background: var(--teal); } .mme-h-a { background: var(--amber); }
+  .mme-logo { font-size: 7px; font-weight: 700; color: rgba(255,255,255,.8); letter-spacing: .08em; text-transform: uppercase; }
+  .mme-hero { padding: 8px 7px; text-align: center; }
+  .mme-hero-icon { display: flex; align-items: center; justify-content: center; margin: 0 auto 3px; opacity: .9; }
+  .mme-ht { font-size: 9px; font-weight: 700; color: #fff; margin-top: 3px; line-height: 1.3; }
+  .mme-body { padding: 7px; }
+  .mme-l { height: 4px; background: var(--gray-light); border-radius: 2px; margin-bottom: 3px; }
+  .mme-l.s { width: 75%; } .mme-l.xs { width: 55%; }
+  .mme-cta { margin-top: 6px; border-radius: 3px; padding: 4px 6px; text-align: center; font-size: 8px; font-weight: 700; color: #fff; }
+  .mme-cta-b { background: var(--blue); } .mme-cta-t { background: var(--teal); } .mme-cta-a { background: var(--amber); }
+
+  /* ── Mini mockup : affiche ── */
+  .mm-affiche { border-radius: 5px; padding: 8px; display: flex; flex-direction: column; justify-content: space-between; min-height: 110px; position: relative; overflow: hidden; width: 100%; box-shadow: 0 2px 8px rgba(0,0,0,.15); }
+  .mm-affiche::before { content: ''; position: absolute; top: -15px; right: -15px; width: 55px; height: 55px; border-radius: 50%; background: rgba(255,255,255,.08); }
+  .mma-b { background: var(--navy); } .mma-t { background: var(--teal); } .mma-a { background: var(--amber); }
+  .mma-tag { font-size: 6px; font-weight: 700; letter-spacing: .1em; text-transform: uppercase; color: rgba(255,255,255,.55); margin-bottom: 4px; }
+  .mma-title { font-size: 10px; font-weight: 700; color: #fff; line-height: 1.2; }
+  .mma-icon { text-align: center; opacity: .8; margin: 5px 0; display: flex; align-items: center; justify-content: center; }
+  .mma-cta { border-radius: 3px; padding: 4px 6px; font-size: 7px; font-weight: 700; color: #fff; text-align: center; }
+  .mma-cta-b { background: var(--blue-mid); } .mma-cta-t { background: rgba(255,255,255,.25); } .mma-cta-a { background: rgba(255,255,255,.25); }
+
+  /* ── Mini mockup : social ── */
+  .mm-social { background: #fff; border: 1px solid #dde1e9; border-radius: 6px; width: 100%; overflow: hidden; box-shadow: 0 1px 5px rgba(0,0,0,.08); }
+  .mms-top { padding: 8px; text-align: center; }
+  .mms-top-b { background: var(--blue); } .mms-top-t { background: var(--teal); } .mms-top-a { background: var(--amber); }
+  .mms-icon { display: flex; align-items: center; justify-content: center; }
+  .mms-h { font-size: 9px; font-weight: 700; color: #fff; margin-top: 3px; line-height: 1.3; }
+  .mms-body { padding: 7px; }
+  .mms-txt { font-size: 8px; color: #444; line-height: 1.5; }
+  .mms-tags { margin-top: 4px; font-size: 8px; font-weight: 600; }
+  .mms-tags-b { color: var(--blue); } .mms-tags-t { color: var(--teal); } .mms-tags-a { color: var(--amber); }
+  .mms-foot { padding: 5px 7px; border-top: 1px solid var(--gray-light); font-size: 8px; color: var(--gray); }
+
+  /* ── Mini mockup : flyer ── */
+  .mm-flyer { border-radius: 5px; width: 100%; overflow: hidden; box-shadow: 0 1px 5px rgba(0,0,0,.08); }
+  .mmf-b { background: var(--amber-light); border: 1px solid #e5c484; }
+  .mmf-t { background: var(--teal-light); border: 1px solid #B0D8D8; }
+  .mmf-band { padding: 7px 9px; display: flex; align-items: center; gap: 5px; }
+  .mmf-band-b { background: var(--amber); } .mmf-band-t { background: var(--teal); }
+  .mmf-bt { font-size: 10px; font-weight: 700; color: #fff; }
+  .mmf-bs { font-size: 7px; color: rgba(255,255,255,.75); margin-top: 1px; }
+  .mmf-body { padding: 7px 9px; display: flex; flex-direction: column; gap: 4px; }
+  .mmf-item { display: flex; align-items: flex-start; gap: 5px; }
+  .mmf-dot { width: 4px; height: 4px; border-radius: 50%; margin-top: 4px; flex-shrink: 0; }
+  .mmf-dot-b { background: var(--amber); } .mmf-dot-t { background: var(--teal); }
+  .mmf-txt { font-size: 9px; line-height: 1.4; }
+  .mmf-txt-b { color: #3a2200; } .mmf-txt-t { color: #003535; }
+  .mmf-foot { padding: 4px 9px; font-size: 8px; font-weight: 700; color: #fff; text-align: center; }
+  .mmf-foot-b { background: var(--amber); } .mmf-foot-t { background: var(--teal); }
+
+  /* ── Mini mockup : guide ── */
+  .mm-guide { background: #fff; border: 1px solid #dde1e9; border-radius: 5px; width: 100%; overflow: hidden; box-shadow: 0 2px 8px rgba(0,0,0,.1); }
+  .mmg-cover { padding: 9px; display: flex; flex-direction: column; gap: 5px; min-height: 80px; }
+  .mmg-b { background: var(--blue); } .mmg-t { background: var(--teal); } .mmg-a { background: var(--amber); }
+  .mmg-logo { font-size: 7px; font-weight: 700; color: rgba(255,255,255,.55); letter-spacing: .08em; text-transform: uppercase; }
+  .mmg-icon { opacity: .8; display: flex; }
+  .mmg-title { font-size: 10px; font-weight: 700; color: #fff; line-height: 1.2; }
+  .mmg-foot { background: rgba(0,0,0,.2); padding: 4px 7px; font-size: 7px; color: rgba(255,255,255,.6); }
+
+  /* ── Mini mockup : notif ── */
+  .mm-notif { background: #fff; border-radius: 8px; width: 100%; padding: 6px; box-shadow: 0 3px 12px rgba(0,0,0,.12); overflow: hidden; }
+  .mmn-bar { display: flex; justify-content: space-between; font-size: 6px; color: var(--gray); margin-bottom: 5px; }
+  .mmn-n { background: var(--gray-light); border-radius: 6px; padding: 6px; display: flex; align-items: flex-start; gap: 5px; min-width: 0; }
+  .mmn-icon { width: 20px; height: 20px; border-radius: 5px; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
+  .mmni-b { background: var(--blue); } .mmni-t { background: var(--teal); } .mmni-a { background: var(--amber); }
+  .mmn-content { min-width: 0; flex: 1; overflow: hidden; }
+  .mmn-app { font-size: 6px; font-weight: 700; color: var(--gray); margin-bottom: 1px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+  .mmn-txt { font-size: 8px; color: var(--navy); line-height: 1.3; word-break: break-word; }
+  .mmn-time { font-size: 6px; color: var(--gray); margin-top: 2px; }
+
+  /* Badge parrain */
+  .badge-parrain {
+    background: var(--purple-light);
+    border: 2px solid var(--purple);
+    border-radius: 10px;
+    padding: 10px;
+    text-align: center;
+    width: 100%;
+    box-shadow: 0 2px 8px rgba(91,63,158,.15);
+  }
+  .badge-parrain-icon { display: flex; align-items: center; justify-content: center; }
+  .badge-parrain-title { font-size: 10px; font-weight: 700; color: var(--purple); margin-top: 4px; line-height: 1.2; }
+  .badge-parrain-sub { font-size: 8px; color: var(--purple); opacity: .7; margin-top: 2px; }
+  .badge-parrain-tag { margin-top: 7px; background: var(--purple); border-radius: 4px; padding: 3px 6px; font-size: 8px; font-weight: 700; color: #fff; }
+
+  /* FOOTER */
+  .footer { margin-top: 24px; display: flex; justify-content: space-between; align-items: center; font-size: 11px; color: #aaa; flex-wrap: wrap; gap: 8px; }
+
+  /* ══════════════════════════
+     RESPONSIVE
+  ══════════════════════════ */
+  @media (max-width: 1024px) {
+    .exp-grid { grid-template-columns: 1fr 1fr; }
+  }
+
+  @media (max-width: 768px) {
+    body { padding: 16px 12px 40px; }
+
+    .header {
+      padding: 18px 20px;
+      flex-direction: column;
+      align-items: flex-start;
+      gap: 14px;
+    }
+    .h-title { font-size: 18px; }
+    .h-badges { gap: 6px; }
+    .hb { font-size: 11px; padding: 5px 11px; }
+
+    .exp-grid { grid-template-columns: 1fr; }
+
+    .exp-head { margin-bottom: 12px; }
+    .eh-name { font-size: 15px; }
+
+    .tbadge { font-size: 10px; }
+
+    .sup-vis { width: 80px; }
+    .sup-name { font-size: 11px; }
+    .sup-desc { font-size: 10px; }
+
+    .footer { flex-direction: column; align-items: flex-start; font-size: 10px; }
+  }
+
+  @media (max-width: 480px) {
+    .header { padding: 16px; border-radius: 10px; }
+    .exp-head { padding: 14px 16px; }
+    .action-h { flex-wrap: wrap; }
+    .sup-card { flex-direction: column; }
+    .sup-vis { width: 100%; min-height: 90px; padding: 10px 20px; }
+    .sup-info { padding: 10px 12px; }
+    .h-badges { flex-direction: column; }
+    .hb { align-self: flex-start; }
+  }
+
+  @media print {
+    body { background: #fff; padding: 0; }
+    .page { max-width: 100%; }
+    .exp-grid { grid-template-columns: repeat(3, 1fr); }
+  }
+</style>
+</head>
+<body>
+
+<div class="page">
+
+  <a href="index.html" class="back-link">
+    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"/></svg>
+    Retour à l'accueil
+  </a>
+
+  <!-- HEADER -->
+  <div class="header">
+    <div>
+      <div class="h-tag">Schéma 2 · Schéma opérationnel</div>
+      <div class="h-title">Actions, sous-actions et supports par expérimentation</div>
+    </div>
+    <div class="h-badges">
+      <div class="hb hb-b">01 · Covoiturage solidaire</div>
+      <div class="hb hb-t">02 · Parrainage mobilité</div>
+      <div class="hb hb-a">03 · Livraisons à vélo</div>
+    </div>
+  </div>
+
+  <!-- 3 COLONNES -->
+  <div class="exp-grid">
+
+    <!-- ══════════ COL 1 : COVOITURAGE ══════════ -->
+    <div>
+      <div class="exp-head eh-blue">
+        <div class="eh-num">Expérimentation 01</div>
+        <div class="eh-name">Covoiturage solidaire</div>
+        <div class="eh-obj">Créer une communauté de covoitureurs sur les zones et faciliter les déplacements des salariés à mobilité précaire (horaires décalés, industrie, restauration, nettoyage).</div>
+      </div>
+
+      <div class="strat st-b">
+        <div class="st-lbl sl-b">Stratégie de communication</div>
+        <div class="st-items">
+          <div class="st-item"><div class="sarr sa-b">→</div><span>Informer sur les avantages du covoiturage</span></div>
+          <div class="st-item"><div class="sarr sa-b">→</div><span>Montrer les possibilités de mise en relation</span></div>
+          <div class="st-item"><div class="sarr sa-b">→</div><span>Créer un sentiment de communauté solidaire</span></div>
+          <div class="st-item"><div class="sarr sa-b">→</div><span>Faciliter l'accès aux outils numériques</span></div>
+        </div>
+      </div>
+
+      <div class="action">
+        <div class="action-h">
+          <div class="anum an-b">1</div>
+          <div><div class="atitle">Communication digitale</div><div class="asub as-b">Site web · Emailing · Visuels réseaux sociaux</div></div>
+        </div>
+        <div class="subs">
+          <div class="sub"><div class="sdot sd-b"></div><span>Créer une page dédiée sur le site Mobilidées</span></div>
+          <div class="sub"><div class="sdot sd-b"></div><span>Envoyer emails d'info aux 300 contacts inscrits</span></div>
+          <div class="sub"><div class="sdot sd-b"></div><span>Diffuser des témoignages d'utilisateurs</span></div>
+          <div class="sub"><div class="sdot sd-b"></div><span>Partager des visuels explicatifs sur les réseaux</span></div>
+        </div>
+      </div>
+
+      <div class="action">
+        <div class="action-h">
+          <div class="anum an-b">2</div>
+          <div><div class="atitle">Communication terrain</div><div class="asub as-b">Stands · Affiches · Flyers · Animations</div></div>
+        </div>
+        <div class="subs">
+          <div class="sub"><div class="sdot sd-b"></div><span>Organiser des stands d'information sur les zones</span></div>
+          <div class="sub"><div class="sdot sd-b"></div><span>Distribuer des flyers, afficher des posters</span></div>
+          <div class="sub"><div class="sdot sd-b"></div><span>Présenter les cartes de localisation des salariés</span></div>
+          <div class="sub"><div class="sdot sd-b"></div><span>Proposer des animations (jeux, quiz mobilité)</span></div>
+        </div>
+      </div>
+
+      <div class="action">
+        <div class="action-h">
+          <div class="anum an-b">3</div>
+          <div><div class="atitle">Mise en relation</div><div class="asub as-b">Application · Communauté · Ateliers inter-zones</div></div>
+        </div>
+        <div class="subs">
+          <div class="sub"><div class="sdot sd-b"></div><span>Créer une communauté via KAros ou BlaBlaCar Daily</span></div>
+          <div class="sub"><div class="sdot sd-b"></div><span>Identifier les zones géographiques communes</span></div>
+          <div class="sub"><div class="sdot sd-b"></div><span>Organiser des rencontres entre salariés</span></div>
+          <div class="sub"><div class="sdot sd-b"></div><span>Proposer des ateliers de mise en relation inter-zones</span></div>
+        </div>
+      </div>
+
+      <div class="tbadge tb-b">
+        <!-- car icon -->
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 17H3a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v5"/><circle cx="16" cy="17" r="2"/><circle cx="7" cy="17" r="2"/><path d="M3 9h11"/><path d="M9 3v6"/></svg>
+        <span>Outils : KAros · BlaBlaCar Daily · Site Mobilidées · 300 contacts email</span>
+      </div>
+
+      <!-- Supports de com -->
+      <div class="sup-label">Exemples de supports produits</div>
+      <div class="sup-stack">
+
+        <div class="sup-card">
+          <div class="sup-vis">
+            <div class="mm-email">
+              <div class="mme-h mme-h-b"><div class="mme-logo">Mobilidées</div></div>
+              <div class="mme-hero" style="background:var(--blue)">
+                <div class="mme-hero-icon">
+                  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 17H5a2 2 0 0 1-2-2V7a2 2 0 0 1 2-2h14l2 3v7a2 2 0 0 1-2 2z"/><circle cx="7" cy="17" r="2"/><circle cx="17" cy="17" r="2"/></svg>
+                </div>
+                <div class="mme-ht">Covoiturez sur votre zone !</div>
+              </div>
+              <div class="mme-body">
+                <div class="mme-l"></div><div class="mme-l s"></div><div class="mme-l xs"></div>
+                <div class="mme-cta mme-cta-b">Je m'inscris →</div>
+              </div>
+            </div>
+          </div>
+          <div class="sup-info">
+            <div class="sup-type st-blue">Email · Newsletter</div>
+            <div class="sup-name">Campagne emailing salariés</div>
+            <div class="sup-desc">Envoyé aux 300 contacts. Présente le covoiturage et pousse à l'inscription sur KAros.</div>
+          </div>
+        </div>
+
+        <div class="sup-card">
+          <div class="sup-vis">
+            <div class="mm-affiche mma-b">
+              <div>
+                <div class="mma-tag">Mobilidées · ADEME</div>
+                <div class="mma-title">Covoiturez sur votre zone !</div>
+              </div>
+              <div class="mma-icon">
+                <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M19 17H5a2 2 0 0 1-2-2V7a2 2 0 0 1 2-2h14l2 3v7a2 2 0 0 1-2 2z"/><circle cx="7" cy="17" r="2"/><circle cx="17" cy="17" r="2"/></svg>
+              </div>
+              <div class="mma-cta mma-cta-b">Inscrivez-vous</div>
+            </div>
+          </div>
+          <div class="sup-info">
+            <div class="sup-type st-blue">Affiche · A2 / Roll-up</div>
+            <div class="sup-name">Affiche stand covoiturage</div>
+            <div class="sup-desc">Présente le dispositif sur les 5 zones lors des stands et semaines mobilité.</div>
+          </div>
+        </div>
+
+        <div class="sup-card">
+          <div class="sup-vis">
+            <div class="mm-social">
+              <div class="mms-top mms-top-b">
+                <div class="mms-icon">
+                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 17H5a2 2 0 0 1-2-2V7a2 2 0 0 1 2-2h14l2 3v7a2 2 0 0 1-2 2z"/><circle cx="7" cy="17" r="2"/><circle cx="17" cy="17" r="2"/></svg>
+                </div>
+                <div class="mms-h">Covoiturage solidaire sur la zone !</div>
+              </div>
+              <div class="mms-body">
+                <div class="mms-txt">Vous travaillez en 2×8 ? Trouvez un covoitureur sur votre zone grâce à Mobilidées.</div>
+                <div class="mms-tags mms-tags-b">#Covoiturage #Mobilidées #ADEME</div>
+              </div>
+              <div class="mms-foot">♥ 38 · ✉ 5 · ↗ Partager</div>
+            </div>
+          </div>
+          <div class="sup-info">
+            <div class="sup-type st-blue">Réseaux sociaux · Post</div>
+            <div class="sup-name">Post LinkedIn sensibilisation</div>
+            <div class="sup-desc">Vise les salariés en horaires décalés via les pages des entreprises partenaires.</div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- ══════════ COL 2 : PARRAINAGE ══════════ -->
+    <div>
+      <div class="exp-head eh-teal">
+        <div class="eh-num">Expérimentation 02</div>
+        <div class="eh-name">Parrainage mobilité</div>
+        <div class="eh-obj">Aider les nouveaux salariés, stagiaires et demandeurs d'emploi à se déplacer facilement en favorisant l'entraide entre salariés expérimentés et nouveaux arrivants.</div>
+      </div>
+
+      <div class="strat st-t">
+        <div class="st-lbl sl-t">Stratégie de communication</div>
+        <div class="st-items">
+          <div class="st-item"><div class="sarr sa-t">→</div><span>Mettre en avant la culture de l'entraide</span></div>
+          <div class="st-item"><div class="sarr sa-t">→</div><span>Créer du lien salariés anciens / nouveaux</span></div>
+          <div class="st-item"><div class="sarr sa-t">→</div><span>Rassurer et accompagner les nouveaux arrivants</span></div>
+          <div class="st-item"><div class="sarr sa-t">→</div><span>Valoriser et fidéliser les parrains volontaires</span></div>
+        </div>
+      </div>
+
+      <div class="action">
+        <div class="action-h">
+          <div class="anum an-t">1</div>
+          <div><div class="atitle">Information</div><div class="asub as-t">Guide mobilité · Email d'accueil · Fiche dispositif</div></div>
+        </div>
+        <div class="subs">
+          <div class="sub"><div class="sdot sd-t"></div><span>Créer un guide mobilité pratique par zone</span></div>
+          <div class="sub"><div class="sdot sd-t"></div><span>Envoyer un email d'accueil aux nouveaux salariés</span></div>
+          <div class="sub"><div class="sdot sd-t"></div><span>Présenter le dispositif en réunion d'intégration</span></div>
+          <div class="sub"><div class="sdot sd-t"></div><span>Diffuser une fiche explicative du programme</span></div>
+        </div>
+      </div>
+
+      <div class="action">
+        <div class="action-h">
+          <div class="anum an-t">2</div>
+          <div><div class="atitle">Mise en relation</div><div class="asub as-t">Identification parrains · Base données · Rencontres</div></div>
+        </div>
+        <div class="subs">
+          <div class="sub"><div class="sdot sd-t"></div><span>Identifier et recruter les parrains volontaires</span></div>
+          <div class="sub"><div class="sdot sd-t"></div><span>Créer une base de données des participants</span></div>
+          <div class="sub"><div class="sdot sd-t"></div><span>Mettre en contact parrains et filleuls (animé ou auto)</span></div>
+          <div class="sub"><div class="sdot sd-t"></div><span>Organiser des rencontres de lancement entre pairs</span></div>
+        </div>
+      </div>
+
+      <div class="action">
+        <div class="action-h">
+          <div class="anum an-t">3</div>
+          <div><div class="atitle">Valorisation</div><div class="asub as-t">Témoignages · Badge · Remerciements · Com interne</div></div>
+        </div>
+        <div class="subs">
+          <div class="sub"><div class="sdot sd-t"></div><span>Publier des témoignages de parrains et filleuls</span></div>
+          <div class="sub"><div class="sdot sd-t"></div><span>Attribuer un badge numérique aux parrains actifs</span></div>
+          <div class="sub"><div class="sdot sd-t"></div><span>Créer des supports de communication interne RH</span></div>
+          <div class="sub"><div class="sdot sd-t"></div><span>Organiser des événements de remerciement</span></div>
+        </div>
+      </div>
+
+      <div class="tbadge tb-t">
+        <!-- handshake / users icon -->
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+        <span>Approche : mise en relation animée ou autonome · valorisation parrains · communication RH</span>
+      </div>
+
+      <!-- Supports de com -->
+      <div class="sup-label">Exemples de supports produits</div>
+      <div class="sup-stack">
+
+        <div class="sup-card">
+          <div class="sup-vis">
+            <div class="mm-guide">
+              <div class="mmg-cover mmg-t">
+                <div class="mmg-logo">Mobilidées</div>
+                <div class="mmg-icon">
+                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="rgba(255,255,255,.8)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
+                </div>
+                <div class="mmg-title">Guide mobilité Pôle Alpha</div>
+              </div>
+              <div class="mmg-foot">Mobilidées × ADEME · 2024</div>
+            </div>
+          </div>
+          <div class="sup-info">
+            <div class="sup-type st-teal">Guide PDF imprimé</div>
+            <div class="sup-name">Guide mobilité par zone</div>
+            <div class="sup-desc">Remis aux nouveaux salariés en accueil. Répertorie transports, covoiturage, plan de zone et contacts utiles.</div>
+          </div>
+        </div>
+
+        <div class="sup-card">
+          <div class="sup-vis">
+            <div class="mm-email">
+              <div class="mme-h mme-h-t"><div class="mme-logo">Mobilidées · Accueil</div></div>
+              <div class="mme-hero" style="background:var(--teal)">
+                <div class="mme-hero-icon">
+                  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+                </div>
+                <div class="mme-ht">Bienvenue ! Voici votre parrain mobilité</div>
+              </div>
+              <div class="mme-body">
+                <div class="mme-l"></div><div class="mme-l s"></div>
+                <div class="mme-cta mme-cta-t">Contacter mon parrain →</div>
+              </div>
+            </div>
+          </div>
+          <div class="sup-info">
+            <div class="sup-type st-teal">Email · Accueil automatisé</div>
+            <div class="sup-name">Email d'accueil + mise en relation</div>
+            <div class="sup-desc">Envoyé au nouveau salarié dès son arrivée avec le contact de son parrain mobilité attribué.</div>
+          </div>
+        </div>
+
+        <div class="sup-card">
+          <div class="sup-vis">
+            <div class="badge-parrain">
+              <div class="badge-parrain-icon">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="var(--purple)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="6"/><path d="M15.477 12.89L17 22l-5-3-5 3 1.523-9.11"/></svg>
+              </div>
+              <div class="badge-parrain-title">Parrain Mobilité</div>
+              <div class="badge-parrain-sub">Pôle Alpha · Les Paluds</div>
+              <div class="badge-parrain-tag">Mobilidées × ADEME</div>
+            </div>
+          </div>
+          <div class="sup-info">
+            <div class="sup-type st-teal">Badge · Valorisation numérique</div>
+            <div class="sup-name">Badge parrain mobilité</div>
+            <div class="sup-desc">Attribué aux salariés parrains. Partageable sur LinkedIn pour valoriser leur engagement.</div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- ══════════ COL 3 : LIVRAISONS ══════════ -->
+    <div>
+      <div class="exp-head eh-amber">
+        <div class="eh-num">Expérimentation 03</div>
+        <div class="eh-name">Livraisons à vélo</div>
+        <div class="eh-obj">Faciliter l'accès aux repas sur les zones d'activité avec une solution locale, écologique et durable. Le livreur est formé par les entreprises partenaires.</div>
+      </div>
+
+      <div class="strat st-a">
+        <div class="st-lbl sl-a">Stratégie de communication</div>
+        <div class="st-items">
+          <div class="st-item"><div class="sarr sa-a">→</div><span>Promouvoir une solution locale et responsable</span></div>
+          <div class="st-item"><div class="sarr sa-a">→</div><span>Mettre en avant le gain de temps (pas de sortie)</span></div>
+          <div class="st-item"><div class="sarr sa-a">→</div><span>Valoriser l'impact écologique positif</span></div>
+          <div class="st-item"><div class="sarr sa-a">→</div><span>Encourager l'adhésion des entreprises au service</span></div>
+        </div>
+      </div>
+
+      <div class="action">
+        <div class="action-h">
+          <div class="anum an-a">1</div>
+          <div><div class="atitle">Sensibilisation des restaurateurs</div><div class="asub as-a">Réunions · Documentation · Partenariat</div></div>
+        </div>
+        <div class="subs">
+          <div class="sub"><div class="sdot sd-a"></div><span>Présenter le projet aux restaurateurs locaux</span></div>
+          <div class="sub"><div class="sdot sd-a"></div><span>Organiser des réunions d'information dédiées</span></div>
+          <div class="sub"><div class="sdot sd-a"></div><span>Distribuer une documentation claire sur le service</span></div>
+          <div class="sub"><div class="sdot sd-a"></div><span>Proposer un partenariat durable et structuré</span></div>
+        </div>
+      </div>
+
+      <div class="action">
+        <div class="action-h">
+          <div class="anum an-a">2</div>
+          <div><div class="atitle">Communication salariés</div><div class="asub as-a">Affiches · Menus · Horaires · Push app</div></div>
+        </div>
+        <div class="subs">
+          <div class="sub"><div class="sdot sd-a"></div><span>Créer et afficher des posters sur les zones</span></div>
+          <div class="sub"><div class="sdot sd-a"></div><span>Diffuser les menus disponibles et les tarifs</span></div>
+          <div class="sub"><div class="sdot sd-a"></div><span>Informer sur les horaires et modalités de livraison</span></div>
+          <div class="sub"><div class="sdot sd-a"></div><span>Envoyer des notifications push quotidiennes (app)</span></div>
+        </div>
+      </div>
+
+      <div class="action">
+        <div class="action-h">
+          <div class="anum an-a">3</div>
+          <div><div class="atitle">Lancement du service</div><div class="asub as-a">Campagne · Stand · Flyers · Retours utilisateurs</div></div>
+        </div>
+        <div class="subs">
+          <div class="sub"><div class="sdot sd-a"></div><span>Organiser une campagne de lancement officielle</span></div>
+          <div class="sub"><div class="sdot sd-a"></div><span>Installer un stand d'information le jour J</span></div>
+          <div class="sub"><div class="sdot sd-a"></div><span>Distribuer flyers et bon de réduction (1re commande)</span></div>
+          <div class="sub"><div class="sdot sd-a"></div><span>Recueillir les retours utilisateurs et ajuster</span></div>
+        </div>
+      </div>
+
+      <div class="tbadge tb-a">
+        <!-- bike icon -->
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="5.5" cy="17.5" r="3.5"/><circle cx="18.5" cy="17.5" r="3.5"/><path d="M15 6a1 1 0 0 0-1-1h-4L8 11l4 4.5"/><path d="M12 6h3l3 5.5"/><path d="M8 11h8"/></svg>
+        <span>Périmètre : Pôle Alpha · Les Paluds · Plaine de Jouques · Livreur formé par les entreprises</span>
+      </div>
+
+      <!-- Supports de com -->
+      <div class="sup-label">Exemples de supports produits</div>
+      <div class="sup-stack">
+
+        <div class="sup-card">
+          <div class="sup-vis">
+            <div class="mm-flyer mmf-b">
+              <div class="mmf-band mmf-band-b">
+                <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="5.5" cy="17.5" r="3.5"/><circle cx="18.5" cy="17.5" r="3.5"/><path d="M15 6a1 1 0 0 0-1-1h-4L8 11l4 4.5"/><path d="M12 6h3l3 5.5"/><path d="M8 11h8"/></svg>
+                <div><div class="mmf-bt">Livraison repas à vélo</div><div class="mmf-bs">Pôle Alpha · Midi · Commandez avant 11h30</div></div>
+              </div>
+              <div class="mmf-body">
+                <div class="mmf-item"><div class="mmf-dot mmf-dot-b"></div><div class="mmf-txt mmf-txt-b">Commandez avant 11h30</div></div>
+                <div class="mmf-item"><div class="mmf-dot mmf-dot-b"></div><div class="mmf-txt mmf-txt-b">Livraison à votre entreprise</div></div>
+                <div class="mmf-item"><div class="mmf-dot mmf-dot-b"></div><div class="mmf-txt mmf-txt-b">Restaurateurs locaux partenaires</div></div>
+              </div>
+              <div class="mmf-foot mmf-foot-b">mobilidees.fr · Livraisons</div>
+            </div>
+          </div>
+          <div class="sup-info">
+            <div class="sup-type st-amber">Flyer · Format A5 / A6</div>
+            <div class="sup-name">Flyer lancement livraisons</div>
+            <div class="sup-desc">Distribué sur les zones, dans les entreprises et lors du stand de lancement du service.</div>
+          </div>
+        </div>
+
+        <div class="sup-card">
+          <div class="sup-vis">
+            <div class="mm-notif">
+              <div class="mmn-bar"><span>09:42</span><span>▲▲▲</span></div>
+              <div class="mmn-n">
+                <div class="mmn-icon mmni-a">
+                  <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="5.5" cy="17.5" r="3.5"/><circle cx="18.5" cy="17.5" r="3.5"/><path d="M15 6a1 1 0 0 0-1-1h-4L8 11l4 4.5"/><path d="M12 6h3l3 5.5"/><path d="M8 11h8"/></svg>
+                </div>
+                <div class="mmn-content">
+                  <div class="mmn-app">MOBILIDÉES</div>
+                  <div class="mmn-txt">Livraison dispo ! Avant 11h30 — Pôle Alpha.</div>
+                  <div class="mmn-time">Maintenant</div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="sup-info">
+            <div class="sup-type st-amber">Application · Push notification</div>
+            <div class="sup-name">Rappel quotidien livraisons</div>
+            <div class="sup-desc">Notification matinale envoyée aux salariés inscrits sur la zone Pôle Alpha / Les Paluds.</div>
+          </div>
+        </div>
+
+        <div class="sup-card">
+          <div class="sup-vis">
+            <div class="mm-affiche mma-a">
+              <div>
+                <div class="mma-tag">Mobilidées · Restaurateurs</div>
+                <div class="mma-title">Livrez vos repas à vélo sur la zone !</div>
+              </div>
+              <div class="mma-icon">
+                <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="5.5" cy="17.5" r="3.5"/><circle cx="18.5" cy="17.5" r="3.5"/><path d="M15 6a1 1 0 0 0-1-1h-4L8 11l4 4.5"/><path d="M12 6h3l3 5.5"/><path d="M8 11h8"/></svg>
+              </div>
+              <div class="mma-cta mma-cta-a">Devenez partenaire</div>
+            </div>
+          </div>
+          <div class="sup-info">
+            <div class="sup-type st-amber">Affiche · B2B restaurateurs</div>
+            <div class="sup-name">Affiche recrutement restaurateurs</div>
+            <div class="sup-desc">Cible les restaurateurs locaux pour les inviter à rejoindre le service de livraison à vélo.</div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+  </div><!-- /exp-grid -->
+
+  <div class="footer">
+    <span>Projet ADEME Mobilités Inter-Zones · Mobilidées · Marseille Métropole</span>
+    <span>Schéma 2 — Actions, sous-actions et supports par expérimentation</span>
+  </div>
+
+</div>
+</body>
+</html>
